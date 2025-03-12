@@ -3,10 +3,8 @@ package com.assesment.users.application.dto.request;
 import lombok.Data;
 
 @Data
-public class UserSignupDto {
-    private String email;
-    private String password;
+public class SuccessfulSignup {
     private String firstName;
     private String lastName;
-    private String role;
+    private String email;
 }

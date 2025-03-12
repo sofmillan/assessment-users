@@ -1,5 +1,6 @@
 package com.assesment.users.application.mapper;
 
+import com.assesment.users.application.dto.request.SuccessfulSignup;
 import com.assesment.users.application.dto.request.UserSignupDto;
 import com.assesment.users.domain.model.User;
 import org.mapstruct.Mapper;
@@ -12,4 +13,5 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface UserDtoMapper {
     User toModel(UserSignupDto userSigninDto);
+    SuccessfulSignup toSignInResponse(User user);
 }

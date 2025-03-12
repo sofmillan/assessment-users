@@ -3,10 +3,10 @@ package com.assesment.users.infrastructure.configuration;
 import com.assesment.users.domain.api.UserServicePort;
 import com.assesment.users.domain.spi.UserPersistencePort;
 import com.assesment.users.domain.usecase.UserUseCase;
-import com.assesment.users.infrastructure.output.CognitoService;
-import com.assesment.users.infrastructure.output.UserEntity;
-import com.assesment.users.infrastructure.output.UserEntityMapper;
-import com.assesment.users.infrastructure.output.UserRepository;
+import com.assesment.users.infrastructure.output.identity.CognitoService;
+import com.assesment.users.infrastructure.output.dynamodb.UserEntity;
+import com.assesment.users.infrastructure.output.dynamodb.UserEntityMapper;
+import com.assesment.users.infrastructure.output.dynamodb.UserPersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +57,7 @@ public class BeanConfiguration {
 
     @Bean
     public UserPersistencePort userPersistencePort(){
-        return new UserRepository( userEntityTable(dynamoDbEnhancedClient(dynamoDbClient())), userEntityMapper,cognitoService);
+        return new UserPersistenceAdapter( userEntityTable(dynamoDbEnhancedClient(dynamoDbClient())), userEntityMapper,cognitoService);
     }
 
     @Bean

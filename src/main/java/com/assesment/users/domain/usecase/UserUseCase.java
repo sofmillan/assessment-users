@@ -12,7 +12,7 @@ public class UserUseCase implements UserServicePort {
     }
 
     @Override
-    public void save(User user) {
-        userPersistencePort.saveUser(user);
+    public User save(User user) {
+        return userPersistencePort.saveUser(user);
     }
 }

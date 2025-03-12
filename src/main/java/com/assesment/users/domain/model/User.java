@@ -1,16 +1,18 @@
 package com.assesment.users.domain.model;
 
 public class User {
-    private Long id;
+    private String id;
     private String email;
+    private String firstName;
+    private String lastName;
     private String password;
     private String role;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -38,10 +40,31 @@ public class User {
         this.role = role;
     }
 
-    public User(Long id, String email, String password, String role) {
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public User(String id, String email, String firstName, String lastName, String password, String role) {
         this.id = id;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.role = role;
+    }
+
+    public User() {
     }
 }

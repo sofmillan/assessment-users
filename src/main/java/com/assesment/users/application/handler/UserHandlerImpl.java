@@ -1,5 +1,6 @@
 package com.assesment.users.application.handler;
 
+import com.assesment.users.application.dto.request.SuccessfulSignup;
 import com.assesment.users.application.dto.request.UserSignupDto;
 import com.assesment.users.application.mapper.UserDtoMapper;
 import com.assesment.users.domain.api.UserServicePort;
@@ -14,7 +15,7 @@ public class UserHandlerImpl implements UserHandler{
     private final UserServicePort userServicePort;
     private final UserDtoMapper userDtoMapper;
     @Override
-    public void userSignup(UserSignupDto userSignupDto) {
-        userServicePort.save(userDtoMapper.toModel(userSignupDto));
+    public SuccessfulSignup userSignup(UserSignupDto userSignupDto) {
+        return userDtoMapper.toSignInResponse(userServicePort.save(userDtoMapper.toModel(userSignupDto)));
     }
 }

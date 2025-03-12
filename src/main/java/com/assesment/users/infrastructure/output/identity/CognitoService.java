@@ -1,5 +1,8 @@
-package com.assesment.users.infrastructure.output;
+package com.assesment.users.infrastructure.output.identity;
 
+import com.assesment.users.domain.model.User;
+import com.assesment.users.infrastructure.output.identity.IdentityService;
+import com.assesment.users.infrastructure.utils.GlobalConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -14,7 +17,7 @@ import java.util.Base64;
 import java.util.Map;
 
 @Service
-public class CognitoService {
+public class CognitoService implements IdentityService {
 
     private final CognitoIdentityProviderClient cognitoClient;
     private final String userPoolId;
@@ -41,28 +44,28 @@ public class CognitoService {
                 .build();
     }
 
-    public String registerUser(String email, String password) {
-        try {
-            String secretHash = calculateSecretHash(clientId, clientSecret, email);
-            System.out.println("COGNITO");
+    public String registerUser(User user) {
+
+            String secretHash = calculateSecretHash(clientId, clientSecret, user.getEmail());
+
             AdminCreateUserRequest signUpRequest = AdminCreateUserRequest .builder()
                     .userPoolId(userPoolId)
-                    .username(email)
-                    .temporaryPassword(password)
+                    .username(user.getEmail())
+                    .temporaryPassword(user.getPassword())
                     .userAttributes(
-                            AttributeType.builder().name("email").value(email).build()
+                            AttributeType.builder().name(GlobalConstants.EMAIL).value(user.getEmail()).build()
                     )
-                    .messageAction("SUPPRESS")
-                    .clientMetadata(Map.of("SECRET_HASH", secretHash))
+                    .messageAction(GlobalConstants.SUPRESS_ACTION)
+                    .clientMetadata(Map.of(GlobalConstants.SECRET_HASH, secretHash))
 
                     .build();
 
-            AdminCreateUserResponse a = cognitoClient.adminCreateUser(signUpRequest);
-            System.out.println(a.user().username());
+            AdminCreateUserResponse registrationResult = cognitoClient.adminCreateUser(signUpRequest);
+
             AdminSetUserPasswordRequest setPasswordRequest = AdminSetUserPasswordRequest.builder()
                     .userPoolId(userPoolId)
-                    .username(email)
-                    .password(password)
+                    .username(user.getEmail())
+                    .password(user.getPassword())
                     .permanent(true)
                     .build();
 
@@ -70,22 +73,20 @@ public class CognitoService {
 
             AdminAddUserToGroupRequest addUserToGroupRequest = AdminAddUserToGroupRequest.builder()
                     .userPoolId(userPoolId)
-                    .username(email)
-                    .groupName("ROLE_ADMIN")
+                    .username(user.getEmail())
+                    .groupName(user.getRole())
                     .build();
 
             cognitoClient.adminAddUserToGroup(addUserToGroupRequest);
-            return a.user().username();
-        } catch (CognitoIdentityProviderException e) {
-            return "Error registering user in Cognito: " + e.awsErrorDetails().errorMessage();
-        }
+            return registrationResult.user().username();
+
     }
 
     public static String calculateSecretHash(String clientId, String clientSecret, String username) {
         try {
             String message = username + clientId;
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(clientSecret.getBytes(), "HmacSHA256"));
+            Mac mac = Mac.getInstance(GlobalConstants.HASH);
+            mac.init(new SecretKeySpec(clientSecret.getBytes(), GlobalConstants.HASH));
             byte[] hash = mac.doFinal(message.getBytes());
             return Base64.getEncoder().encodeToString(hash);
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.assesment.users.infrastructure.output;
+package com.assesment.users.infrastructure.output.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,6 +21,9 @@ public class UserEntity {
     private String id;
     
     private String email;
+
+    private String firstName;
+    private String lastName;
 
     private LocalDateTime createdAt;
 
@@ -48,5 +51,21 @@ public class UserEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
