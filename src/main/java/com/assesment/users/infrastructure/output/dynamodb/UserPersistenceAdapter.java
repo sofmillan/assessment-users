@@ -1,5 +1,6 @@
 package com.assesment.users.infrastructure.output.dynamodb;
 
+import com.assesment.users.domain.model.AuthenticatedUser;
 import com.assesment.users.domain.model.User;
 import com.assesment.users.domain.spi.UserPersistencePort;
 import com.assesment.users.infrastructure.output.identity.IdentityService;
@@ -26,5 +27,10 @@ public class UserPersistenceAdapter implements UserPersistencePort {
         entity.setCreatedAt(LocalDateTime.now());
         userTable.putItem(entity);
         return userEntityMapper.toModel(entity);
+    }
+
+    @Override
+    public AuthenticatedUser authenticateUser(User user) {
+        return identityService.loginUser(user);
     }
 }

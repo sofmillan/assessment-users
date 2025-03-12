@@ -1,5 +1,6 @@
 package com.assesment.users.infrastructure.output.identity;
 
+import com.assesment.users.domain.model.AuthenticatedUser;
 import com.assesment.users.domain.model.User;
 import com.assesment.users.infrastructure.output.identity.IdentityService;
 import com.assesment.users.infrastructure.utils.GlobalConstants;
@@ -94,25 +95,27 @@ public class CognitoService implements IdentityService {
         }
     }
 
-    public String signInAndGenerateJwt(String email, String password) {
+    public AuthenticatedUser loginUser(User user) {
         try {
-            // Step 1: Authenticate and get Cognito tokens
-            String secretHash = calculateSecretHash(clientId, clientSecret, email);
+            String secretHash = calculateSecretHash(clientId, clientSecret, user.getEmail());
 
             InitiateAuthRequest authRequest = InitiateAuthRequest.builder()
                     .authFlow(AuthFlowType.USER_PASSWORD_AUTH)
                     .clientId(clientId)
                     .authParameters(Map.of(
-                            "USERNAME", email,
-                            "PASSWORD", password,
-                            "SECRET_HASH", secretHash
+                            GlobalConstants.USERNAME, user.getEmail(),
+                            GlobalConstants.PASSWORD, user.getPassword(),
+                            GlobalConstants.SECRET_HASH, secretHash
                     ))
                     .build();
 
             InitiateAuthResponse authResponse = cognitoClient.initiateAuth(authRequest);
             AuthenticationResultType result = authResponse.authenticationResult();
 
-            return result.accessToken();
+            return new AuthenticatedUser(result.accessToken(),
+                    result.refreshToken(),
+                    result.expiresIn(),
+                    result.tokenType());
         } catch (CognitoIdentityProviderException e) {
             throw new RuntimeException("Authentication failed: " + e.awsErrorDetails().errorMessage());
         }
