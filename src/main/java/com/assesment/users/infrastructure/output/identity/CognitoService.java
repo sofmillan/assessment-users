@@ -120,14 +120,4 @@ public class CognitoService implements IdentityService {
             throw new RuntimeException("Authentication failed: " + e.awsErrorDetails().errorMessage());
         }
     }
-
-    private String getUserGroup(String email) {
-        AdminListGroupsForUserRequest groupsRequest = AdminListGroupsForUserRequest.builder()
-                .username(email)
-                .userPoolId(userPoolId)
-                .build();
-
-        AdminListGroupsForUserResponse response = cognitoClient.adminListGroupsForUser(groupsRequest);
-        return response.groups().isEmpty() ? "NoGroupAssigned" : response.groups().get(0).groupName();
-    }
 }

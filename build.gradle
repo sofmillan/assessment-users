@@ -31,6 +31,7 @@ dependencies {
 	implementation group: 'software.amazon.awssdk', name: 'cognitoidentityprovider', version: '2.30.35'
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb', version: '2.30.36'
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb-enhanced', version: '2.30.36'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.6.3'

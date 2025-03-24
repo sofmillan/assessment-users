@@ -22,9 +22,4 @@ public class UserController {
     public SuccessfulSignIn signIn(@RequestBody UserSigninDto user) {
         return userHandler.userSignin(user);
     }
-
-    @GetMapping("/health")
-    public String health() {
-        return "Hello";
-    }
 }

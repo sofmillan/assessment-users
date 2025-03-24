@@ -1,7 +1,6 @@
 package com.assesment.users.infrastructure.output.dynamodb;
 
 import com.assesment.users.domain.model.User;
-import com.assesment.users.infrastructure.output.dynamodb.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
