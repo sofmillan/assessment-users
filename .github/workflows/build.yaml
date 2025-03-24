@@ -5,12 +5,12 @@ on:
       - main
 
 env:
-  ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-  SECRET_KEY: ${{ secrets.SECRET_KEY }}
-  USER_POOL_ID: ${{ secrets.USER_POOL_ID }}
-  CLIENT_ID: ${{ secrets.CLIENT_ID }}
-  REGION: ${{ secrets.REGION }}
-  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+#  ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+#  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#  USER_POOL_ID: ${{ secrets.USER_POOL_ID }}
+#  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+#  REGION: ${{ secrets.REGION }}
+#  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
   ECR_REPOSITORY_NAME: ${{ secrets.ECR_REPOSITORY_NAME }}
   ECR_REPOSITORY_LINK: ${{ secrets.ECR_REPOSITORY_LINK }}
   ECR_REPOSITORY_PATH: ${{ secrets.ECR_REPOSITORY_PATH }}
