@@ -48,8 +48,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonar --info
 
-
   docker:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -69,5 +69,6 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         run: |
-          docker build -t ${{env.AWS_ECR_REPO_LINK}}:1.0.0 .
+          docker build -t ${{env.AWS_ECR_REPO_NAME}} .
+          docker tag ${{env.AWS_ECR_REPO_NAME}}:latest ${{env.AWS_ECR_REPO_LINK}}:1.0.0
           docker push ${{env.AWS_ECR_REPO_LINK}}:1.0.0
