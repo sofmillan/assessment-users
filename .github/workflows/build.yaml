@@ -95,6 +95,7 @@ jobs:
         run: |
           docker build -t ${{env.ECR_REPOSITORY_LINK}}:1.0.0 .
           docker push ${{ env.ECR_REPOSITORY_LINK }}:1.0.0
+          echo "image=${{ env.ECR_REPOSITORY_LINK }}:1.0.0" >> $GITHUB_OUTPUT
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
