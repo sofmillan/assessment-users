@@ -15,6 +15,10 @@ env:
   ECR_REPOSITORY_LINK: ${{ secrets.ECR_REPOSITORY_LINK }}
   ECR_REPOSITORY_PATH: ${{ secrets.ECR_REPOSITORY_PATH }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#  ECS_SERVICE: MY_ECS_SERVICE
+#  ECS_CLUSTER: MY_ECS_CLUSTER
+#  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION
+#  CONTAINER_NAME: MY_CONTAINER_NAME
 
 jobs:
   build:
@@ -49,7 +53,8 @@ jobs:
         run: ./gradlew build sonar --info
 
 
-  docker:
+  deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -90,3 +95,19 @@ jobs:
         run: |
           docker build -t ${{env.ECR_REPOSITORY_LINK}}:1.0.0 .
           docker push ${{ env.ECR_REPOSITORY_LINK }}:1.0.0
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: app-task-definition.json
+          container-name: assessment-users
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: users-assessment
+        cluster: assessment
+        wait-for-service-stability: true

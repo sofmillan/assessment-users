@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/health")
-    public void health() {
-
+    public String health() {
+        return "Hello";
     }
 }
