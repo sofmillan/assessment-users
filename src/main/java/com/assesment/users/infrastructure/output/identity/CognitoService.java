@@ -2,7 +2,6 @@ package com.assesment.users.infrastructure.output.identity;
 
 import com.assesment.users.domain.model.AuthenticatedUser;
 import com.assesment.users.domain.model.User;
-import com.assesment.users.infrastructure.output.identity.IdentityService;
 import com.assesment.users.infrastructure.utils.GlobalConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -111,6 +110,7 @@ public class CognitoService implements IdentityService {
 
             InitiateAuthResponse authResponse = cognitoClient.initiateAuth(authRequest);
             AuthenticationResultType result = authResponse.authenticationResult();
+
 
             return new AuthenticatedUser(result.accessToken(),
                     result.refreshToken(),

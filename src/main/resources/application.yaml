@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo
+
+aws:
+  accessKey: ${ACCESS_KEY}
+  secretKey:  ${SECRET_KEY}
+  cognito:
+    userPoolId: ${USER_POOL_ID}
+    clientId:  ${CLIENT_ID}
+    region:  ${REGION}
+    clientSecret: ${CLIENT_SECRET}
+  dynamodb:
+    tableName: Users
+    region: ${REGION}
+

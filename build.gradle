@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'com.assesment'
@@ -24,17 +25,13 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.6.3'
 
 	implementation group: 'software.amazon.awssdk', name: 'cognitoidentityprovider', version: '2.30.35'
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb', version: '2.30.36'
-	implementation group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.12.782'
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb-enhanced', version: '2.30.36'
-
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.6.3'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -43,4 +40,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "sofmillan_assessment-users"
+		property "sonar.organization", "sofmillan"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
 }
