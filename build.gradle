@@ -52,7 +52,7 @@ sonar {
 
 jacocoTestReport {
 	reports {
-		xml.enabled true
+		xml.required.set(true)
 	}
 	dependsOn test
 }
