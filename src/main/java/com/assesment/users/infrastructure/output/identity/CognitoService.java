@@ -2,6 +2,8 @@ package com.assesment.users.infrastructure.output.identity;
 
 import com.assesment.users.domain.model.AuthenticatedUser;
 import com.assesment.users.domain.model.User;
+import com.assesment.users.infrastructure.exception.IncorrectPasswordException;
+import com.assesment.users.infrastructure.exception.UserDoesNotExistException;
 import com.assesment.users.infrastructure.utils.GlobalConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -116,8 +118,10 @@ public class CognitoService implements IdentityService {
                     result.refreshToken(),
                     result.expiresIn(),
                     result.tokenType());
-        } catch (CognitoIdentityProviderException e) {
-            throw new RuntimeException("Authentication failed: " + e.awsErrorDetails().errorMessage());
+        } catch (UserNotFoundException e) {
+            throw new UserDoesNotExistException("User does not exist");
+        } catch (NotAuthorizedException e) {
+            throw new IncorrectPasswordException("Incorrect password");
         }
     }
 }
