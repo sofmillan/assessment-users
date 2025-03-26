@@ -32,6 +32,7 @@ dependencies {
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb', version: '2.30.36'
 	implementation group: 'software.amazon.awssdk', name: 'dynamodb-enhanced', version: '2.30.36'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.6.3'
