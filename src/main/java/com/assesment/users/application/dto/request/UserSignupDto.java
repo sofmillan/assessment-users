@@ -3,25 +3,28 @@ package com.assesment.users.application.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class UserSignupDto {
-    @NotNull(message = "Email is required")
-    @Email(message = "Email must have a valid format")
+    @NotNull(message = "email is required")
+    @Email(message = "email must have a valid format")
     private String email;
 
-    @NotNull(message = "Password is required")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\^$*.\\[\\]{}\\(\\)?\\-\\\"!@#%&\\/,><\\':;|_~`])\\S{8,99}$", message = "Password is not strong enough")
+    @NotNull(message = "password is required")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\\\d])(?=.*[\\^$*.\\[\\]{}\\(\\)?\\-\\\"!@#%&\\/,><\\':;|_~`])\\S{8,99}$", message = "password is not strong enough")
     private String password;
 
-    @NotNull(message = "First name is required")
+    @NotNull(message = "firstName is required")
+    @Size(min = 1, max=50, message = "firstName must be between 1 and 50 characters long")
     private String firstName;
 
-    @NotNull(message = "Last name is required")
+    @NotNull(message = "lastName is required")
+    @Size(min = 1, max=50, message = "lastName must be between 1 and 50 characters long")
     private String lastName;
 
-    @NotNull(message = "Role is required")
-    @Pattern(regexp = "ROLE_HOST|ROLE_USER", message = "Role is not valid")
+    @NotNull(message = "role is required")
+    @Pattern(regexp = "ROLE_HOST|ROLE_USER", message = "role is not valid")
     private String role;
 }

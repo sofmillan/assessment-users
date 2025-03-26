@@ -6,6 +6,10 @@ public class AuthenticatedUser {
     private Integer expiresIn;
     private String type;
 
+    public AuthenticatedUser() {
+
+    }
+
     public String getAccessToken() {
         return accessToken;
     }
