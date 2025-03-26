@@ -1,5 +1,6 @@
 package com.assesment.users.infrastructure.exception;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -24,10 +25,16 @@ public class ControllerAdvisor {
         return ResponseEntity.status(401).body(errorResponse);
     }
 
+    @ExceptionHandler(UserExistsException.class)
+    public ResponseEntity<ErrorResponse> userExistsException(UserExistsException e){
+        ErrorResponse errorResponse = new ErrorResponse(LocalDateTime.now(), HttpStatus.CONFLICT, 409, List.of(e.getMessage()));
+        return ResponseEntity.status(409).body(errorResponse);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getAllErrors().stream()
-                .map(error -> ((FieldError) error).getField() + ": " + error.getDefaultMessage())
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+        List<String> errors = e.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toList();
 
         ErrorResponse errorResponse = new ErrorResponse(

@@ -4,6 +4,7 @@ import com.assesment.users.domain.model.AuthenticatedUser;
 import com.assesment.users.domain.model.User;
 import com.assesment.users.infrastructure.exception.IncorrectPasswordException;
 import com.assesment.users.infrastructure.exception.UserDoesNotExistException;
+import com.assesment.users.infrastructure.exception.UserExistsException;
 import com.assesment.users.infrastructure.utils.GlobalConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,12 @@ public class CognitoService implements IdentityService {
                     .clientMetadata(Map.of(GlobalConstants.SECRET_HASH, secretHash))
 
                     .build();
-
-            AdminCreateUserResponse registrationResult = cognitoClient.adminCreateUser(signUpRequest);
+            AdminCreateUserResponse registrationResult;
+            try{
+                registrationResult = cognitoClient.adminCreateUser(signUpRequest);
+            }catch(UsernameExistsException e){
+                throw new UserExistsException("User already exists");
+            }
 
             AdminSetUserPasswordRequest setPasswordRequest = AdminSetUserPasswordRequest.builder()
                     .userPoolId(userPoolId)

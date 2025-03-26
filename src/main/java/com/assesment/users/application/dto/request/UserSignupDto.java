@@ -1,6 +1,5 @@
 package com.assesment.users.application.dto.request;
 
-import com.assesment.users.domain.model.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,6 +12,7 @@ public class UserSignupDto {
     private String email;
 
     @NotNull(message = "Password is required")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\^$*.\\[\\]{}\\(\\)?\\-\\\"!@#%&\\/,><\\':;|_~`])\\S{8,99}$", message = "Password is not strong enough")
     private String password;
 
     @NotNull(message = "First name is required")
