@@ -37,12 +37,10 @@ class UserUseCaseTest {
         user.setPassword("Password123?");
         user.setRole("ROLE_USER");
 
-        authenticatedUser = new AuthenticatedUser();
-        authenticatedUser.setAccessToken("mockAccessToken");
-        authenticatedUser.setRefreshToken("mockRefreshToken");
-        authenticatedUser.setExpiresIn(3600);
-        authenticatedUser.setType("Bearer");
-
+        authenticatedUser = new AuthenticatedUser("mockAccessToken",
+                "mockRefreshToken",
+                3600,
+                "Bearer");
     }
 
     @Test

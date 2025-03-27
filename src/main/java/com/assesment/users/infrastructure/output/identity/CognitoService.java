@@ -47,6 +47,7 @@ public class CognitoService implements IdentityService {
                 .build();
     }
 
+    @Override
     public String registerUser(User user) {
 
             String secretHash = calculateSecretHash(clientId, clientSecret, user.getEmail());
@@ -89,6 +90,7 @@ public class CognitoService implements IdentityService {
 
     }
 
+
     public static String calculateSecretHash(String clientId, String clientSecret, String username) {
         try {
             String message = username + clientId;
@@ -101,6 +103,7 @@ public class CognitoService implements IdentityService {
         }
     }
 
+    @Override
     public AuthenticatedUser loginUser(User user) {
         try {
             String secretHash = calculateSecretHash(clientId, clientSecret, user.getEmail());
