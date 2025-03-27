@@ -55,6 +55,7 @@ class UserUseCaseTest {
 
         // Assert
         assertNotNull(result);
+        assertEquals(user.getId(), result.getId());
         assertEquals(user.getEmail(), result.getEmail());
         assertEquals(user.getFirstName(), result.getFirstName());
         assertEquals(user.getLastName(), result.getLastName());

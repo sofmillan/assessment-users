@@ -6,10 +6,6 @@ public class AuthenticatedUser {
     private Integer expiresIn;
     private String type;
 
-    public AuthenticatedUser() {
-
-    }
-
     public String getAccessToken() {
         return accessToken;
     }
@@ -42,10 +38,15 @@ public class AuthenticatedUser {
         this.type = type;
     }
 
+    public AuthenticatedUser() {
+
+    }
+
     public AuthenticatedUser(String accessToken, String refreshToken, Integer expiresIn, String type) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresIn = expiresIn;
         this.type = type;
     }
+
 }
